@@ -10,6 +10,7 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     phone: str
     password: str
+    roles: Union[str, None]
 
 
 class UserLogin(UserBase):

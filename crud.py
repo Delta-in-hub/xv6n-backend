@@ -25,6 +25,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     _hashed_password = userpart.get_hashed_password(user.password)
     db_user = models.User(username=user.username,
                           hashed_password=_hashed_password, phone=user.phone)
+    db_user.roles = user.roles
 
     # hard code the token for convenience
     db_user.accessToken = "eyJhbGciOiJIUzUxMiJ9."+user.username

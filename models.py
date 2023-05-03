@@ -8,7 +8,7 @@ class User(Base):
     __tablename__ = "users"
 
     username = Column(String, unique=True, index=True, primary_key=True)
-    phone = Column(String, unique=True, index=True)
+    phone = Column(String)
     hashed_password = Column(String)
 
     #     username: "admin",
@@ -17,6 +17,7 @@ class User(Base):
     # refreshToken: "eyJhbGciOiJIUzUxMiJ9.adminRefresh",
     # expires: "2023/10/30 00:00:00"
     roles = Column(String)  # admin / common
+
     accessToken = Column(String)
     refreshToken = Column(String)
     expires = Column(String)

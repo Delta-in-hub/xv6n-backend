@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 import crud
 import models
-import reponse
+import response
 import schemas
 from database import SessionLocal, engine
 
@@ -38,11 +38,11 @@ def get_db():
 router = APIRouter()
 
 
-@router.post("/register", response_model=reponse.loginResponse)
+@router.post("/register", response_model=response.loginResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_name(db, username=user.username)
-    res = reponse.loginResponse()
-    if db_user:
+    res = response.loginResponse()
+    if db_user or user.roles is None:
         res.success = False
         return res
     db_user = crud.create_user(db=db, user=user)
@@ -50,11 +50,29 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     res.data = schemas.User.from_orm(db_user)
     return res
 
+# update
 
-@router.post("/login", response_model=reponse.loginResponse)
+
+@router.post("/updatepwd", response_model=response.loginResponse)
+def update_password(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_name(db, username=user.username)
+    res = response.loginResponse()
+    if db_user:
+        if db_user.phone == user.phone:
+            db_user.hashed_password = get_hashed_password(user.password)
+            db.commit()
+            db.refresh(db_user)
+            res.success = True
+            res.data = schemas.User.from_orm(db_user)
+            return res
+    res.success = False
+    return res
+
+
+@router.post("/login", response_model=response.loginResponse)
 def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_name(db, username=user.username)
-    res = reponse.loginResponse()
+    res = response.loginResponse()
     if db_user:
         if check_password(user.password, db_user.hashed_password):
             res.success = True

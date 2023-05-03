@@ -11,7 +11,8 @@ password = "mysecretpassword"
 # database: oslab
 database = "oslab"
 # host: 172.17.0.4
-host = "172.17.0.4"
+# host = "172.17.0.4"
+host = "172.17.0.5"
 # port: 5432
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{user}:{password}@{host}/{database}"
