@@ -41,4 +41,44 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-# admin123notreallyhashed
+def refresh_token(db: Session, token: schemas.TokenCreate):
+    db_token = db.query(models.UserToken).filter(
+        models.UserToken.username == token.username).first()
+
+    if db_token is None:
+        db_token = models.UserToken(username=token.username, token=token.token)
+        db.add(db_token)
+    else:
+        db_token.token = token.token
+
+    db.commit()
+    db.refresh(db_token)
+    return db_token
+
+
+def get_token(db: Session, username: str):
+    db_token = db.query(models.UserToken).filter(
+        models.UserToken.username == username).first()
+    return db_token
+
+
+def get_username_by_token(db: Session, token: str) -> str:
+    db_token = db.query(models.UserToken).filter(
+        models.UserToken.token == token).first()
+    if db_token is None:
+        return None
+    return db_token.username
+
+
+def updateScore(db: Session, userscore: schemas.ScoreCreate) -> models.Score:
+    db_score = db.query(models.Score).filter(models.Score.username == userscore.username).filter(
+        models.Score.course == userscore.course).first()
+    if not db_score:
+        db_score = models.Score(
+            username=userscore.username, course=userscore.course, score=userscore.score)
+        db.add(db_score)
+    else:
+        db_score.score = userscore.score
+    db.commit()
+    db.refresh(db_score)
+    return db_score

@@ -8,6 +8,7 @@ import crud
 import models
 import response
 import schemas
+import uuid
 from database import SessionLocal, engine
 
 
@@ -80,6 +81,29 @@ def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
             return res
     res.success = False
     return res
+
+
+def generate_token(username: str) -> str:
+    return f"{username}-{uuid.uuid4().hex}"
+
+
+@router.get("/gettoken")
+def getToken(user: schemas.UserBase, db: Session = Depends(get_db)):
+    db_token = crud.get_token(db, user.username)
+    if not db_token:
+        raise HTTPException(status_code=400, detail="Invalid username")
+    return db_token
+
+
+@router.post("/refreshtoken")
+def refreshToken(user: schemas.UserBase, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_name(db, username=user.username)
+    if not db_user:
+        raise HTTPException(
+            status_code=400, detail="Invalid username")
+    tokenobj = schemas.TokenCreate(username=db_user.username,
+                                   token=generate_token(db_user.username))
+    return crud.refresh_token(db, tokenobj)
 
 
 if __name__ == "__main__":

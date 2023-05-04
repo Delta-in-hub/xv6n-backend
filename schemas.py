@@ -63,3 +63,9 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class TestUpload(BaseModel):
+    token: str
+    lab: str
+    content: str
