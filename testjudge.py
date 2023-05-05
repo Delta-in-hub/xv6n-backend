@@ -62,6 +62,22 @@ LABTESTER = {
     "lab2-1-hello": getScoreLab_2_1,
     "lab2-2-find": getScoreLab_2_1,
     "lab2-3-getppid": getScoreLab_2_1,
+    "lab2-4-getsched": getScoreLab_2_1,
+    "lab3-1-pthread": getScoreLab_2_1,
+    "lab3-2-sem": getScoreLab_2_1,
+    "lab3-3-sem_impl": getScoreLab_2_1,
+    "lab4-1-sched": getScoreLab_2_1,
+    "lab4-2-mlfq": getScoreLab_2_1,
+    "lab5-1-exception": getScoreLab_2_1,
+    "lab5-2-minigdb": getScoreLab_2_1,
+    "lab6-1-bestfit": getScoreLab_2_1,
+    "lab6-2-buddy": getScoreLab_2_1,
+    "lab6-3-umalloc": getScoreLab_2_1,
+    "lab7-1-lazy": getScoreLab_2_1,
+    "lab7-2-cow": getScoreLab_2_1,
+    "lab8-1-symlink": getScoreLab_2_1,
+    "lab8-2-largefile": getScoreLab_2_1,
+    "lab8-3-mmap": getScoreLab_2_1,
 }
 
 

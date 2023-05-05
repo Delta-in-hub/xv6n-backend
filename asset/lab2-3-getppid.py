@@ -7,7 +7,7 @@ r = Runner()
 
 
 @test(20, "getppid, makes syscall")
-def test_sleep():
+def test_getppid():
     r.run_qemu(shell_script([
         './getppidtest',
         'echo FAIL'
@@ -16,7 +16,7 @@ def test_sleep():
 
 
 @test(80, "run getppidtest and check the result")
-def test_mmaptest():
+def test_getppid_pass():
     r.run_qemu(shell_script([
         './getppidtest'
     ]), timeout=180)
