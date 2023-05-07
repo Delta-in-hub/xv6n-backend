@@ -9,6 +9,7 @@ import models
 import schemas
 import asset
 import testjudge
+import score
 from database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -51,3 +52,4 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 app.include_router(user.router)
 app.include_router(asset.router)
 app.include_router(testjudge.router)
+app.include_router(score.router)

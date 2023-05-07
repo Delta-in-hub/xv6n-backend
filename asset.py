@@ -22,6 +22,11 @@ def getGradeLib():
     return FileResponse(path="./asset/gradelib.py", filename="gradelib.py", media_type='text/plain')
 
 
+@router.get("/get/example_release.json")
+def getExampleRelease():
+    return FileResponse(path="./asset/example_release.json", filename="example_release.json", media_type='text/json')
+
+
 @router.get("/get/{lab_item}")
 def getGradePy(lab_item: str):
 

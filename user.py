@@ -87,9 +87,9 @@ def generate_token(username: str) -> str:
     return f"{username}-{uuid.uuid4().hex}"
 
 
-@router.get("/gettoken")
-def getToken(user: schemas.UserBase, db: Session = Depends(get_db)):
-    db_token = crud.get_token(db, user.username)
+@router.get("/gettoken/{username}")
+def getToken(username: str, db: Session = Depends(get_db)):
+    db_token = crud.get_token(db, username)
     if not db_token:
         raise HTTPException(status_code=400, detail="Invalid username")
     return db_token

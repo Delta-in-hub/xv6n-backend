@@ -11,8 +11,8 @@ password = "mysecretpassword"
 
 database = "oslab"
 
-host = "172.17.0.4"
-# host = "172.17.0.5"
+# host = "172.17.0.4"
+host = "172.17.0.5"
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{user}:{password}@{host}/{database}"
 
