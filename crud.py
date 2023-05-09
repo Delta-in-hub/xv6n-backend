@@ -82,3 +82,9 @@ def updateScore(db: Session, userscore: schemas.ScoreCreate) -> models.Score:
     db.commit()
     db.refresh(db_score)
     return db_score
+
+
+def get_scores_by_labitem(db: Session, labitem: str):
+    db_score = db.query(models.Score).filter(
+        models.Score.course == labitem).all()
+    return db_score

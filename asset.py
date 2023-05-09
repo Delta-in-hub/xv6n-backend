@@ -39,6 +39,7 @@ def checkLabName(lab_item: str):
     if not lab_item.endswith(".py"):
         lab_item += ".py"
     restr = r"lab[0-9]+-[0-9]+-?.*\.py"
+    # print(lab_item)
     eng = re.compile(restr)
     if (eng.match(lab_item) == None):
         return False
@@ -85,14 +86,14 @@ def uploadCode(token: str, lab_item: str, code: UploadFile, db: Session = Depend
 
 
 @router.get("/getcode/{username}/{lab_item}")
-def getCode(username: str, lab_item: str, db: Session = Depends(get_db)):
+def getCodeTargz(username: str, lab_item: str, db: Session = Depends(get_db)):
     if crud.get_user_by_name(db, username) == None:
         raise HTTPException(
             status_code=404, detail=f"User {username} Not Found")
     if (checkLabName(lab_item) == False):
         raise HTTPException(
-            status_code=404, detail=f"File {lab_item} Not Found")
+            status_code=404, detail=f"{lab_item} Not Found")
     if (os.path.exists(f"./asset/stucodes/{username}/{lab_item}.tar.gz") == False):
         raise HTTPException(
-            status_code=404, detail=f"File {lab_item} Not Found")
-    return FileResponse(path=f"./asset/stucodes/{username}/{lab_item}.tar.gz", filename=f"{lab_item}.tar.gz", media_type='application/x-gzip')
+            status_code=404, detail=f"File {username}/{lab_item}.tar.gz Not Found")
+    return FileResponse(path=f"./asset/stucodes/{username}/{lab_item}.tar.gz", filename=f"{username}-{lab_item}.tar.gz", media_type='application/x-gzip')

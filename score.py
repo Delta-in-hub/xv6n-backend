@@ -42,3 +42,19 @@ def getAllStudentsScores(db: Session = Depends(get_db)):
         user = schemas.User.from_orm(db_user)
         users.append({"username": user.username, "scores": user.scores})
     return users
+
+
+@router.get("/getLabScores/{labitem}")
+def getLabScores(labitem: str, db: Session = Depends(get_db)):
+    sclist = crud.get_scores_by_labitem(db, labitem)
+    if not sclist or len(sclist) == 0:
+        raise HTTPException(
+            status_code=404, detail=f"Lab {labitem} not found")
+#     name: "20194755",
+#     labitem: "lab2-1-hello",
+#     score: 90
+    relist = []
+    for s in sclist:
+        relist.append(
+            {"name": s.username, "labitem": labitem, "score": s.score})
+    return relist
